@@ -1,8 +1,8 @@
-import EditScreenInfo from '@/components/EditScreenInfo';
-import { Center } from '@/components/ui/center';
-import { Divider } from '@/components/ui/divider';
-import { Heading } from '@/components/ui/heading';
-import { Text } from '@/components/ui/text';
+import EditScreenInfo from '@/src/components/EditScreenInfo';
+import { Center } from '@/src/components/ui/center';
+import { Divider } from '@/src/components/ui/divider';
+import { Heading } from '@/src/components/ui/heading';
+import { Text } from '@/src/components/ui/text';
 
 export default function Tab2() {
   return (
