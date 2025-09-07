@@ -1,13 +1,13 @@
 import HeaderBackButton from '@/src/components/HeaderBackButton';
 import { Stack } from "expo-router";
 
-const SignUpLayout = () => {
+const LoginLayout = () => {
   return (
     <Stack screenOptions={{ headerShown: true }}>
       <Stack.Screen
-        name="signUpScreen"
+        name="loginScreen"
         options={{
-          title: "Sign Up",
+          title: "Login",
           headerLeft: () => <HeaderBackButton />,
         }}
       />
@@ -15,4 +15,4 @@ const SignUpLayout = () => {
   );
 };
 
-export default SignUpLayout;
+export default LoginLayout;
