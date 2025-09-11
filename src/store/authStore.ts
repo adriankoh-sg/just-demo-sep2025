@@ -4,6 +4,7 @@ import {
   signInWithEmailAndPassword,
   signOut,
 } from "@react-native-firebase/auth";
+import database, { ref } from "@react-native-firebase/database";
 import { create } from "zustand";
 
 interface User extends Partial<FirebaseAuthTypes.User> {
@@ -39,9 +40,10 @@ export const useAuthStore = create<AuthState>((set) => ({
 
     return new Promise((resolve, reject) => {
       signInWithEmailAndPassword(auth, email, password)
-        .then((userCredential) => {
+        .then(async (userCredential) => {
           // Signed in
           const user = userCredential.user;
+
           set({
             isAuthenticated: true,
             user: {

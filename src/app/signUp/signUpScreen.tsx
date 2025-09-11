@@ -19,7 +19,7 @@ import {
   useToast,
 } from '@/src/components/ui/toast';
 import { VStack } from "@/src/components/ui/vstack";
-import { createNewUser } from "@/src/util/firebase";
+import { createNewUser, testWriteToDatabase } from "@/src/util/firebase";
 import { Feather } from "@expo/vector-icons";
 import { useState } from "react";
 
@@ -56,7 +56,7 @@ const SignUpScreen = () => {
   const handleOnCreateAccount = async () => {
     setIsLoading(true);
     try {
-      const result = await createNewUser(email, password, displayName);
+      const result = await createNewUser(email, password, displayName, chineseName, deShu);
       console.log('-- success --');
       toast.show({
         placement: 'top',
