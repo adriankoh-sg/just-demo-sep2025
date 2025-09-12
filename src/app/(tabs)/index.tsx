@@ -1,15 +1,29 @@
 import { Divider } from '@/src/components/ui/divider';
 import { VStack } from '@/src/components/ui/vstack';
-import { useAuthStore } from '@/src/store/authStore';
-import React, { useEffect } from 'react';
+import { useAuthStore, User } from '@/src/store/authStore';
+import { getAuth, onAuthStateChanged } from '@react-native-firebase/auth';
+import React, { useEffect, useState } from 'react';
 import { SafeAreaView, ScrollView, StyleSheet, Text, View } from 'react-native';
 
 const Home: React.FC = () => {
-  const user = useAuthStore(state => state.user);
+  const [initializing, setInitializing] = useState(true);
+  const { user, setUser } = useAuthStore(state => state);
 
   useEffect(() => {
     console.log('Home screen: ', { user })
   }, [user])
+
+  // Handle user state changes
+  function handleAuthStateChanged(user) {
+    setUser(user);
+    if (initializing) setInitializing(false);
+  }
+
+  useEffect(() => {
+    const subscriber = onAuthStateChanged(getAuth(), handleAuthStateChanged);
+    return subscriber; // unsubscribe on unmount
+  }, []);
+
   return (
     <SafeAreaView style={styles.container}>
       <ScrollView contentContainerStyle={styles.content}>
@@ -20,9 +34,11 @@ const Home: React.FC = () => {
           user && (
             <VStack className="items-center pt-4">
               <VStack className="mb-4 bg-slate-200 rounded-lg w-full p-6">
-                <Text className="text-typography-500">Display Name: {user.displayName}</Text>
-                <Text className="text-typography-500">Email: {user.email}</Text>
                 <Text className="text-typography-500">UID: {user.uid}</Text>
+                <Text className="text-typography-500">Email: {user.email}</Text>
+                <Text className="text-typography-500">Display Name: {user.displayName}</Text>
+                <Text className="text-typography-500">Chinese Name: {user.chineseName}</Text>
+                <Text className="text-typography-500">德数: {user.deShu}</Text>
               </VStack>
             </VStack>
           )

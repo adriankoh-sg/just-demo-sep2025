@@ -6,8 +6,9 @@ import {
 } from "@react-native-firebase/auth";
 import database, { ref } from "@react-native-firebase/database";
 import { create } from "zustand";
+import { getUserData } from "../util/firebase";
 
-interface User extends Partial<FirebaseAuthTypes.User> {
+export interface User extends Partial<FirebaseAuthTypes.User> {
   chineseName: string;
   deShu: string;
 }
@@ -26,6 +27,7 @@ interface AuthState {
     password: string;
   }) => Promise<void>;
   logout: () => Promise<void>;
+  setUser: (user: User) => void;
 }
 
 export const useAuthStore = create<AuthState>((set) => ({
@@ -92,5 +94,12 @@ export const useAuthStore = create<AuthState>((set) => ({
           resolve();
         });
     });
+  },
+  setUser: async (user) => {
+    // get the chineseName and deShu from realtime database
+    if (user.uid) {
+      const userData = await getUserData(user.uid);
+      set({ user: { ...user, ...userData } });
+    }
   },
 }));

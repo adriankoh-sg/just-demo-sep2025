@@ -4,7 +4,7 @@ import {
   onAuthStateChanged,
   sendEmailVerification,
 } from "@react-native-firebase/auth";
-import database, { firebase } from "@react-native-firebase/database";
+import { firebase } from "@react-native-firebase/database";
 
 const reference = firebase
   .app()
@@ -48,6 +48,16 @@ export const createNewUser = async (
     }
     console.log({ result });
     return result;
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getUserData = async (uid: string) => {
+  try {
+    const snapshot = await reference.ref(`/users/${uid}`).once("value");
+
+    return snapshot.val();
   } catch (error) {
     throw error;
   }
