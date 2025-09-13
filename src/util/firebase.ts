@@ -5,12 +5,14 @@ import {
   sendEmailVerification,
 } from "@react-native-firebase/auth";
 import { firebase } from "@react-native-firebase/database";
+import { forEach } from "lodash";
+import { User } from "../store/authStore";
 
-const reference = firebase
-  .app()
-  .database(
-    "https://chttth-demo-default-rtdb.asia-southeast1.firebasedatabase.app/"
-  );
+const dbUrl = process.env.EXPO_PUBLIC_FIREBASE_DB_URL;
+if (!dbUrl) {
+  throw new Error("FIREBASE_DB_URL is not defined");
+}
+const reference = firebase.app().database(dbUrl);
 
 export const createNewUser = async (
   email: string,
@@ -58,6 +60,22 @@ export const getUserData = async (uid: string) => {
     const snapshot = await reference.ref(`/users/${uid}`).once("value");
 
     return snapshot.val();
+  } catch (error) {
+    throw error;
+  }
+};
+
+export const getAllUsers = async () => {
+  try {
+    const snapshot = await reference.ref(`/users`).once("value");
+    const users = snapshot.val();
+    let userList: User[] = [];
+
+    forEach(users, (value, key) => {
+      userList.push(value);
+    });
+
+    return userList;
   } catch (error) {
     throw error;
   }

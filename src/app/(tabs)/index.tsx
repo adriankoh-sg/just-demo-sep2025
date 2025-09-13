@@ -15,6 +15,7 @@ const Home: React.FC = () => {
 
   // Handle user state changes
   function handleAuthStateChanged(user) {
+    console.log('Auth state changed: ', { user });
     setUser(user);
     if (initializing) setInitializing(false);
   }

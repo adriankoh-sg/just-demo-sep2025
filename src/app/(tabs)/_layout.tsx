@@ -49,6 +49,16 @@ export default function Layout() {
       </Tabs.Protected>
       <Tabs.Protected guard={isAuthenticated}>
         <Tabs.Screen
+          name={'members'}
+          options={{
+            headerTitle: 'Members',
+            tabBarLabel: 'Members',
+            tabBarIcon: ({ color, size }) => (
+              <Ionicons name="people-outline" size={size} color={color} />
+            ),
+          }}
+        />
+        <Tabs.Screen
           name="logout"
           options={{
             headerTitle: 'Logout',
